@@ -11,7 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class GameVisualizer extends JPanel
 {
@@ -206,5 +206,22 @@ public class GameVisualizer extends JPanel
         fillOval(g, x, y, 5, 5);
         g.setColor(Color.BLACK);
         drawOval(g, x, y, 5, 5);
+    }
+
+    public void showRobotCoordinatesDialog() {
+        JFrame dialog = new JFrame("Координаты робота");
+        dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Закрытие при нажатии X
+
+        JLabel positionLabel = new JLabel("Позиция: (" + round(m_robotPositionX) + ", " + round(m_robotPositionY) + ")");
+        JLabel directionLabel = new JLabel("Направление: " + Math.toDegrees(m_robotDirection) + " градусов");
+
+        JPanel contentPanel = new JPanel();
+        contentPanel.add(positionLabel);
+        contentPanel.add(directionLabel);
+
+        dialog.getContentPane().add(contentPanel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null); // Центрирование диалога
+        dialog.setVisible(true);
     }
 }
