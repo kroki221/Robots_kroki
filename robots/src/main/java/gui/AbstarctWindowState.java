@@ -13,8 +13,8 @@ public abstract class AbstarctWindowState extends JInternalFrame implements Fram
     private static final String prefixWindowIsMinimised = formatTitle("is minimised");
     private final JInternalFrame frame = this;
 
-    public AbstarctWindowState(String string, boolean b, boolean b1, boolean b2, boolean b3) {
-        super(string, b, b1, b2, b3);
+    public AbstarctWindowState(String string, boolean b1,boolean b2, boolean b3) {
+        super(string,b1,b2,b3);
     }
 
 

@@ -17,7 +17,7 @@ public class LogWindow extends AbstarctWindowState implements LogChangeListener
 
     public LogWindow(LogWindowSource logSource) 
     {
-        super("Протокол работы", true, true, true, true);
+        super("Протокол работы", true, true,true);
         m_logSource = logSource;
         m_logSource.registerListener(this);
         m_logContent = new TextArea("");

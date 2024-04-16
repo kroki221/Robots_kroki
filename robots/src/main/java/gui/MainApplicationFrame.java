@@ -1,11 +1,8 @@
 package gui;
-
+import model.Robot;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -15,6 +12,7 @@ import log.Logger;
 
 public class MainApplicationFrame extends JFrame {
     private final JDesktopPane desktopPane = new JDesktopPane();
+    Robot robot = new Robot(200, 150);
     Locale locale = new Locale("ru", "RU");
     ResourceBundle bundle = ResourceBundle.getBundle("recources", locale);
 
@@ -30,12 +28,6 @@ public class MainApplicationFrame extends JFrame {
                 ((FrameState) frame).saveWindow();
             }
         }
-    }
-
-    private void restoreState() {
-        for (var frame : desktopPane.getAllFrames())
-            if (frame instanceof FrameState)
-                ((FrameState) frame).restoreWindow();
     }
 
     public MainApplicationFrame() {
@@ -55,30 +47,11 @@ public class MainApplicationFrame extends JFrame {
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
-//    public static void initializeUI() {
-//        try {
-//            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        MainApplicationFrame frame = new MainApplicationFrame();
-//        int inset = 50;
-//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//        frame.setBounds(inset, inset, screenSize.width - inset * 2, screenSize.height - inset * 2);
-//        frame.setContentPane(frame.desktopPane);
-//        frame.setJMenuBar(frame.generateMenuBar());
-//        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        frame.restoreState();
-//        frame.setVisible(true);
-//        frame.pack();
-//        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-//    }
 
     private GameWindow createGameWindow() {
         int gameWindowWidth = 400;
         int gameWindowHeight = 400;
-
-        GameWindow gameWindow = new GameWindow();
+        GameWindow gameWindow = new GameWindow(robot);
         gameWindow.setSize(gameWindowWidth, gameWindowHeight);
         return gameWindow;
     }
@@ -108,9 +81,14 @@ public class MainApplicationFrame extends JFrame {
 
         JMenu documentMenu = createMenu(bundle.getString("menu"), KeyEvent.VK_D);
 
-        documentMenu.add(createMenuItem(bundle.getString("new_game_field"), KeyEvent.VK_N, "alt N", (event) -> addWindow(createGameWindow())));
-        documentMenu.add(createMenuItem(bundle.getString("log_window"), KeyEvent.VK_L, "alt L", (event) -> addWindow(new LogWindow(Logger.getDefaultLogSource()))));
-        documentMenu.add(createMenuItem(bundle.getString("exit"), KeyEvent.VK_Q, "alt Q", (event) -> confirmExit()));
+        documentMenu.add(createMenuItem(bundle.getString("new_game_field"),
+                KeyEvent.VK_N, "alt N", (event) -> addWindow(createGameWindow())));
+        documentMenu.add(createMenuItem(bundle.getString("game_coord"),
+                KeyEvent.VK_N, "alt N", (event) -> addWindow(new CoordinatsWindow(robot,200,200))));
+        documentMenu.add(createMenuItem(bundle.getString("log_window"),
+                KeyEvent.VK_L, "alt L", (event) -> addWindow(new LogWindow(Logger.getDefaultLogSource()))));
+        documentMenu.add(createMenuItem(bundle.getString("exit"),
+                KeyEvent.VK_Q, "alt Q", (event) -> confirmExit()));
         menuBar.add(documentMenu);
 
         JMenu viewMenu = createMenu(bundle.getString("display_mode"), KeyEvent.VK_V);
